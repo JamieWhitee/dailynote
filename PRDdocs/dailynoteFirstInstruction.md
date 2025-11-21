@@ -503,3 +503,22 @@ dailynote/
 ├── tailwind.config.ts
 └── package.json
 ```
+
+
+Total Estimated Time: 12-18 hours (1.5-2 days)
+Key Files to Implement (in order):
+✅ 
+lib/supabase/client.ts
+ - Browser Supabase client
+✅ 
+lib/supabase/server.ts
+ - Server Supabase client
+🔄 app/(auth)/login/page.tsx - Login page
+⏳ app/(auth)/signup/page.tsx - Signup page
+⏳ components/sidebar.tsx - History sidebar
+⏳ app/dashboard/layout.tsx - Dashboard layout
+⏳ 
+app/dashboard/page.tsx
+ - Chat interface
+⏳ app/api/summarize/route.ts - AI summary endpoint
+⏳ app/dashboard/history/[date]/page.tsx - History view
