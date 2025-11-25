@@ -23,45 +23,60 @@ async function summarizeWithQwen(notes: Note[], summaryType: 'regular' | 'counse
     .map((note, index) => `${index + 1}. [${new Date(note.created_at).toLocaleTimeString()}] ${note.content}`)
     .join('\n')
 
+  // Get current day info for contextual recommendations
+  const today = new Date()
+  const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long' })
+  const isWeekend = today.getDay() === 0 || today.getDay() === 6
+  const isFriday = today.getDay() === 5
+  const tomorrowIsWeekend = isFriday || isWeekend
+
   // Different prompts based on summary type - using switch for clarity
   let prompt: string
   
   switch (summaryType) {
     case 'regular':
-      prompt = `请总结以下今日笔记，生成一个简洁的日记摘要。要求：
-1. 用中文回答
-2. 总结主要活动和事件
-3. 保持简洁，3-5句话
-4. 突出重点和情绪
+      prompt = `You are my journal companion—rational yet deeply caring. Today is ${dayOfWeek}${tomorrowIsWeekend ? ' (weekend ahead)' : ''}.
 
-今日笔记：
+I share my daily life with you: moments of joy or sadness, achievements, interactions with others, and my thoughts. My entries might be casual, messy, or scattered.
+
+📝 Today's entries:
 ${notesText}
 
-请生成摘要：`
+Using the Cognitive Behavioral ABC framework (Activating event → Belief → Consequence), help me make sense of my day. Organize my experiences along these dimensions:
+
+**Emotions**: What did I feel today? What triggered these feelings?
+**Behaviors**: What did I do? How did I respond to situations?
+**Cognitions**: What thoughts or beliefs drove my actions? What patterns do you notice?
+
+Then, offer me 1-2 genuine insights or suggestions that could help—whether it's a book, a place to visit, a way to rest, something to try, or simply acknowledgment of what I'm going through.
+
+**Your voice**: Be warm, steady, concise, and powerful. No flowery language. Talk like a friend who sees me clearly and wants me to thrive. Give me energy, not empty words.
+
+Keep it 200-250 words. Write in fluent English.`
       break
       
     case 'counselling':
-      prompt = `作为一位专业的生活顾问和心理咨询师，请分析以下今日笔记，并提供个性化的建议和洞察。要求：
+      prompt = `As a professional life coach and counselor, please analyze the following daily notes and provide personalized insights and advice. Requirements:
 
-1. **工作效率分析**：评估今天的工作状态和效率，指出做得好的地方
-2. **生活平衡建议**：根据今天的活动，判断工作与生活是否平衡，给出具体建议
-3. **情绪健康关注**：从笔记中感知情绪状态，如果压力大建议放松方式
-4. **明日改进计划**：提供2-3个具体的、可执行的改进建议
-5. **长期规划提示**：如果发现持续忙碌，建议安排休假或旅行；如果很充实，鼓励保持
+1. **Work Efficiency Analysis**: Assess today's work performance and productivity, highlight what went well
+2. **Life Balance Suggestions**: Based on today's activities, evaluate work-life balance and provide specific recommendations
+3. **Emotional Wellness**: Identify emotional states from the notes; if stressed, suggest relaxation methods
+4. **Tomorrow's Improvement Plan**: Provide 2-3 specific, actionable improvement suggestions
+5. **Long-term Planning**: If consistently busy, suggest scheduling a vacation or trip; if fulfilling, encourage maintaining the momentum
 
-请用温暖、专业的语气，像朋友一样给出建议。用中文回答，保持在200字左右。
+Please respond in a warm, professional tone, like a supportive friend. Use fluent, natural English. Keep it around 150-200 words.
 
-今日笔记：
+Today's notes:
 ${notesText}
 
-请提供你的分析和建议：`
+Please provide your analysis and advice:`
       break
       
     default:
       // Fallback to regular if unknown type
-      prompt = `请总结以下今日笔记。
+      prompt = `Please summarize the following daily notes in fluent English.
 
-今日笔记：
+Today's notes:
 ${notesText}`
       break
   }
@@ -110,45 +125,60 @@ async function summarizeWithDoubao(notes: Note[], summaryType: 'regular' | 'coun
     .map((note, index) => `${index + 1}. [${new Date(note.created_at).toLocaleTimeString()}] ${note.content}`)
     .join('\n')
 
+  // Get current day info for contextual recommendations
+  const today = new Date()
+  const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long' })
+  const isWeekend = today.getDay() === 0 || today.getDay() === 6
+  const isFriday = today.getDay() === 5
+  const tomorrowIsWeekend = isFriday || isWeekend
+
   // Different prompts based on summary type - using switch for clarity
   let prompt: string
   
   switch (summaryType) {
     case 'regular':
-      prompt = `请总结以下今日笔记，生成一个简洁的日记摘要。要求：
-1. 用英文回答
-2. 总结主要活动和事件
-3. 保持简洁，3-5句话
-4. 突出重点和情绪
+      prompt = `You are my journal companion—rational yet deeply caring. Today is ${dayOfWeek}${tomorrowIsWeekend ? ' (weekend ahead)' : ''}.
 
-今日笔记：
+I share my daily life with you: moments of joy or sadness, achievements, interactions with others, and my thoughts. My entries might be casual, messy, or scattered.
+
+📝 Today's entries:
 ${notesText}
 
-请生成摘要：`
+Using the Cognitive Behavioral ABC framework (Activating event → Belief → Consequence), help me make sense of my day. Organize my experiences along these dimensions:
+
+**Emotions**: What did I feel today? What triggered these feelings?
+**Behaviors**: What did I do? How did I respond to situations?
+**Cognitions**: What thoughts or beliefs drove my actions? What patterns do you notice?
+
+Then, offer me 1-2 genuine insights or suggestions that could help—whether it's a book, a place to visit, a way to rest, something to try, or simply acknowledgment of what I'm going through.
+
+**Your voice**: Be warm, steady, concise, and powerful. No flowery language. Talk like a friend who sees me clearly and wants me to thrive. Give me energy, not empty words.
+
+Keep it 200-250 words. Write in fluent English.`
       break
       
     case 'counselling':
-      prompt = `作为一位专业的生活顾问和心理咨询师，请分析以下今日笔记，并提供个性化的建议和洞察。要求：
+      prompt = `As a professional life coach and counselor, please analyze the following daily notes and provide personalized insights and advice. Requirements:
 
-1. **工作效率分析**：评估今天的工作状态和效率，指出做得好的地方
-2. **生活平衡建议**：根据今天的活动，判断工作与生活是否平衡，给出具体建议
-3. **情绪健康关注**：从笔记中感知情绪状态，如果压力大建议放松方式
-4. **明日改进计划**：提供1-2个具体的、可执行的改进建议
-5. **长期规划提示**：鼓励保持
+1. **Work Efficiency Analysis**: Assess today's work performance and productivity, highlight what went well
+2. **Life Balance Suggestions**: Based on today's activities, evaluate work-life balance and provide specific recommendations
+3. **Emotional Wellness**: Identify emotional states from the notes; if stressed, suggest relaxation methods
+4. **Tomorrow's Improvement Plan**: Provide 2-3 specific, actionable improvement suggestions
+5. **Long-term Planning**: If consistently busy, suggest scheduling a vacation or trip; if fulfilling, encourage maintaining the momentum
 
-请用温暖、专业的语气，像朋友一样给出建议。用英文回答，保持在150字左右。
+Please respond in a warm, professional tone, like a supportive friend. Use fluent, natural English. Keep it around 150-200 words.
 
-今日笔记：
+Today's notes:
 ${notesText}
 
-请提供你的分析和建议：`
+Please provide your analysis and advice:`
       break
       
     default:
       // Fallback to regular if unknown type
-      prompt = `请总结以下今日笔记。
+      prompt = `Please summarize the following daily notes in fluent English.
 
-今日笔记：
+Today's notes:
 ${notesText}`
       break
   }
@@ -263,18 +293,17 @@ export async function POST(request: Request) {
     // 4. Generate AI summary with fallback
     const { summary, provider } = await summarizeNotes(notes, summaryType)
 
-    // 5. Save summary to database (upsert to handle multiple summaries per day)
+    // 5. Save summary to database (insert to allow multiple summaries per day)
     const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD
     
     const { data: savedSummary, error: insertError } = await supabase
       .from('summaries')
-      .upsert({
+      .insert({
         user_id: user.id,
         content: summary, // Column name is 'content', not 'summary_text'
         note_count: notes.length,
         date: today,
-      }, {
-        onConflict: 'user_id,date' // Update if exists for this user and date
+        notes_snapshot: notes, // Save original notes snapshot
       })
       .select()
       .single()
