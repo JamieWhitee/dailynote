@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
 import { toast } from 'sonner'
-import Sidebar from '@/components/Sidebar'
+import Sidebar from '@/components/sidebar'
 
 interface Note {
   id: string
